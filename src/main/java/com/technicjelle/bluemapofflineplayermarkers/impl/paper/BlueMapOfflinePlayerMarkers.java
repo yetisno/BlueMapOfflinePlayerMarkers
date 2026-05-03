@@ -105,15 +105,15 @@ public final class BlueMapOfflinePlayerMarkers extends JavaPlugin implements Lis
 	@EventHandler
 	public void onLeave(PlayerQuitEvent e) {
 		Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-			org.bukkit.entity.Player player = e.getPlayer();
-			UUID playerUUID = player.getUniqueId();
+			org.bukkit.entity.Player bukkitPlayer = e.getPlayer();
+			UUID playerUUID = bukkitPlayer.getUniqueId();
 
-			BukkitPlayerData bukkitPlayerData = new BukkitPlayerData(player);
+			BukkitPlayerData bukkitPlayerData = new BukkitPlayerData(bukkitPlayer);
 			Player playerToAdd = new Player(playerUUID, bukkitPlayerData);
 
 			Optional<BlueMapAPI> api = BlueMapAPI.getInstance();
 			if (api.isEmpty()) {
-				Singletons.getLogger().warning("BlueMap is not loaded, cannot add marker for " + player.getName());
+				Singletons.getLogger().warning("BlueMap is not loaded, cannot add marker for " + bukkitPlayer.getName());
 				return;
 			}
 
