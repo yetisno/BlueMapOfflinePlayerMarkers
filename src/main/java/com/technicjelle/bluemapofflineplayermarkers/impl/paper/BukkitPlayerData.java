@@ -34,4 +34,9 @@ public class BukkitPlayerData implements PlayerData {
 	public Optional<UUID> getWorldUUID() {
 		return Optional.of(bukkitPlayer.getWorld().getUID());
 	}
+
+	@Override
+	public Object getDimension() {
+		return bukkitPlayer.getWorld();
+	}
 }

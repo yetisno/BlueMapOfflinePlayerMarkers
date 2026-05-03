@@ -3,7 +3,6 @@ package com.technicjelle.bluemapofflineplayermarkers.core.fileloader;
 import com.flowpowered.math.vector.Vector3d;
 import com.technicjelle.bluemapofflineplayermarkers.common.PlayerData;
 import com.technicjelle.bluemapofflineplayermarkers.core.GameMode;
-import com.technicjelle.bluemapofflineplayermarkers.core.Singletons;
 import de.bluecolored.bluenbt.NBTName;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,8 +42,10 @@ public class NBTPlayerData implements PlayerData {
 			return Optional.of(worldUUID);
 		}
 
-		// If world UUID isn't valid, try to find it some other way,
-		//  and if we can't find the world UUID, we return empty
-		return Singletons.getServer().guessWorldUUID(dimension);
+		return Optional.empty();
+	}
+
+	public Object getDimension() {
+		return dimension;
 	}
 }

@@ -1,6 +1,9 @@
 package mockery;
 
 import com.technicjelle.bluemapofflineplayermarkers.common.Server;
+import com.technicjelle.bluemapofflineplayermarkers.core.Player;
+import de.bluecolored.bluemap.api.BlueMapAPI;
+import de.bluecolored.bluemap.api.BlueMapWorld;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -49,8 +52,8 @@ public class MockServer implements Server {
 	}
 
 	@Override
-	public Optional<UUID> guessWorldUUID(Object object) {
-		return Optional.empty();
+	public BlueMapWorld getBlueMapWorldForPlayer(BlueMapAPI api, Player player) {
+		throw new UnsupportedOperationException("This method is not called from the tests");
 	}
 
 	@Override

@@ -1,7 +1,11 @@
 package com.technicjelle.bluemapofflineplayermarkers.impl.paper;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
+import com.technicjelle.bluemapofflineplayermarkers.common.PlayerData;
 import com.technicjelle.bluemapofflineplayermarkers.common.Server;
+import com.technicjelle.bluemapofflineplayermarkers.core.Player;
+import de.bluecolored.bluemap.api.BlueMapAPI;
+import de.bluecolored.bluemap.api.BlueMapWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -83,13 +87,34 @@ public class PaperServer implements Server {
 	}
 
 	@Override
-	public Optional<UUID> guessWorldUUID(Object object) {
-		if (object instanceof String dimensionString) {
+	public BlueMapWorld getBlueMapWorldForPlayer(BlueMapAPI api, Player player) {
+		PlayerData playerData = player.getPlayerData();
+
+		//If this is a BukkitPlayer, then we can just call Bukkit's player.getWorld() on it and feed that right into BlueMap.
+		if (playerData instanceof BukkitPlayerData) {
+			Object bukkitWorld = playerData.getDimension();
+			Optional<BlueMapWorld> oBmWorld = api.getWorld(bukkitWorld);
+			if (oBmWorld.isPresent()) return oBmWorld.get();
+		}
+
+		//It's (likely) an NBT Player
+		//So then first, we try to use the WorldUUID from the player data NBT
+		// (it seems like this is an exclusive property to Bukkit)
+		Optional<UUID> worldUUID = playerData.getWorldUUID();
+		if (worldUUID.isPresent()) {
+			Optional<BlueMapWorld> oBmWorld = api.getWorld(worldUUID.get());
+			if (oBmWorld.isPresent()) return oBmWorld.get();
+		}
+
+		//The player data NBT did not have a WorldUUID, so we try to use the dimension
+		Object dimension = playerData.getDimension();
+		if (dimension instanceof String dimensionString) {
 			//Try to get world by name
 			{
 				@Nullable World world = server.getWorld(dimensionString);
 				if (world != null) {
-					return Optional.of(world.getUID());
+					Optional<BlueMapWorld> oBmWorld = api.getWorld(world);
+					if (oBmWorld.isPresent()) return oBmWorld.get();
 				}
 			}
 
@@ -97,24 +122,35 @@ public class PaperServer implements Server {
 			for (World world : server.getWorlds()) {
 				switch (world.getEnvironment()) {
 					case NORMAL:
-						if (dimensionString.contains("overworld")) return Optional.of(world.getUID());
+						if (dimensionString.contains("overworld")) {
+							Optional<BlueMapWorld> oBmWorld = api.getWorld(world);
+							if (oBmWorld.isPresent()) return oBmWorld.get();
+						}
 					case NETHER:
-						if (dimensionString.contains("the_nether")) return Optional.of(world.getUID());
+						if (dimensionString.contains("the_nether")) {
+							Optional<BlueMapWorld> oBmWorld = api.getWorld(world);
+							if (oBmWorld.isPresent()) return oBmWorld.get();
+						}
 					case THE_END:
-						if (dimensionString.contains("the_end")) return Optional.of(world.getUID());
+						if (dimensionString.contains("the_end")) {
+							Optional<BlueMapWorld> oBmWorld = api.getWorld(world);
+							if (oBmWorld.isPresent()) return oBmWorld.get();
+						}
 				}
 			}
 		}
 
-		if (object instanceof Integer) {
-			int dimensionInt = (Integer) object;
+		if (dimension instanceof Integer dimensionInt) {
 			for (World world : server.getWorlds()) {
 				@SuppressWarnings("deprecation") int worldID = world.getEnvironment().getId();
-				if (worldID == dimensionInt) return Optional.of(world.getUID());
+				if (worldID == dimensionInt) {
+					Optional<BlueMapWorld> oBmWorld = api.getWorld(world);
+					if (oBmWorld.isPresent()) return oBmWorld.get();
+				}
 			}
 		}
 
-		return Optional.empty();
+		throw new IllegalArgumentException("Could not find BlueMap world for dimension: " + dimension);
 	}
 
 	@Override
