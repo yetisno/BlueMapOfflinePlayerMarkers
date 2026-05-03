@@ -21,16 +21,16 @@ import java.util.UUID;
 
 public class PaperServer implements Server {
 	final JavaPlugin plugin;
-	final org.bukkit.Server server;
+	final org.bukkit.Server bukkitServer;
 
 	public PaperServer(JavaPlugin plugin) {
 		this.plugin = plugin;
-		this.server = plugin.getServer();
+		this.bukkitServer = plugin.getServer();
 	}
 
 	@Override
 	public boolean isPlayerOnline(UUID playerUUID) {
-		OfflinePlayer op = server.getOfflinePlayer(playerUUID);
+		OfflinePlayer op = bukkitServer.getOfflinePlayer(playerUUID);
 		return op.isOnline();
 	}
 
@@ -60,7 +60,7 @@ public class PaperServer implements Server {
 
 	@Override
 	public Optional<Instant> getPlayerLastPlayed(UUID playerUUID) {
-		OfflinePlayer op = server.getOfflinePlayer(playerUUID);
+		OfflinePlayer op = bukkitServer.getOfflinePlayer(playerUUID);
 		long millisSinceEpoch = op.getLastSeen();
 		if (millisSinceEpoch == 0) return Optional.empty();
 		return Optional.of(Instant.ofEpochMilli(millisSinceEpoch));
@@ -68,11 +68,11 @@ public class PaperServer implements Server {
 
 	@Override
 	public String getPlayerName(UUID playerUUID) {
-		OfflinePlayer op = server.getOfflinePlayer(playerUUID);
+		OfflinePlayer op = bukkitServer.getOfflinePlayer(playerUUID);
 		@Nullable String name = op.getName();
 		if (name != null) return name;
 
-		PlayerProfile playerProfile = server.createProfile(playerUUID);
+		PlayerProfile playerProfile = bukkitServer.createProfile(playerUUID);
 		if (playerProfile.complete(false)) {
 			name = playerProfile.getName();
 			if (name != null && !name.isBlank()) return name;
@@ -111,7 +111,7 @@ public class PaperServer implements Server {
 		if (dimension instanceof String dimensionString) {
 			//Try to get world by name
 			{
-				@Nullable World world = server.getWorld(dimensionString);
+				@Nullable World world = bukkitServer.getWorld(dimensionString);
 				if (world != null) {
 					Optional<BlueMapWorld> oBmWorld = api.getWorld(world);
 					if (oBmWorld.isPresent()) return oBmWorld.get();
@@ -119,7 +119,7 @@ public class PaperServer implements Server {
 			}
 
 			//Try to get world by dimension
-			for (World world : server.getWorlds()) {
+			for (World world : bukkitServer.getWorlds()) {
 				switch (world.getEnvironment()) {
 					case NORMAL:
 						if (dimensionString.contains("overworld")) {
@@ -141,7 +141,7 @@ public class PaperServer implements Server {
 		}
 
 		if (dimension instanceof Integer dimensionInt) {
-			for (World world : server.getWorlds()) {
+			for (World world : bukkitServer.getWorlds()) {
 				@SuppressWarnings("deprecation") int worldID = world.getEnvironment().getId();
 				if (worldID == dimensionInt) {
 					Optional<BlueMapWorld> oBmWorld = api.getWorld(world);
@@ -155,7 +155,7 @@ public class PaperServer implements Server {
 
 	@Override
 	public boolean isPlayerBanned(UUID playerUUID) {
-		OfflinePlayer op = server.getOfflinePlayer(playerUUID);
+		OfflinePlayer op = bukkitServer.getOfflinePlayer(playerUUID);
 		return op.isBanned();
 	}
 }
