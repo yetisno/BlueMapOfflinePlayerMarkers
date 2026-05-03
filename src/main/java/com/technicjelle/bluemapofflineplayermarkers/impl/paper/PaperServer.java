@@ -58,6 +58,7 @@ public class PaperServer implements Server {
 	public Optional<Instant> getPlayerLastPlayed(UUID playerUUID) {
 		OfflinePlayer op = server.getOfflinePlayer(playerUUID);
 		long millisSinceEpoch = op.getLastSeen();
+		if (millisSinceEpoch == 0) return Optional.empty();
 		return Optional.of(Instant.ofEpochMilli(millisSinceEpoch));
 	}
 
