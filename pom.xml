@@ -122,9 +122,10 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>de.bluecolored.bluenbt</groupId>
-			<artifactId>BlueNBT</artifactId>
-			<version>3.0.2</version>
+			<groupId>de.bluecolored</groupId>
+			<artifactId>bluenbt</artifactId>
+			<version>3.5.0</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains</groupId>
