@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 import java.util.Optional;
 import java.util.UUID;
 
-public class PlayerBukkitData implements PlayerData {
+public class BukkitPlayerData implements PlayerData {
 	final Player player;
 
-	public PlayerBukkitData(Player player) {
+	public BukkitPlayerData(Player player) {
 		this.player = player;
 	}
 

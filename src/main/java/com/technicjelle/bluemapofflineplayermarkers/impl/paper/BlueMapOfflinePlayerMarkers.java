@@ -108,8 +108,8 @@ public final class BlueMapOfflinePlayerMarkers extends JavaPlugin implements Lis
 			org.bukkit.entity.Player player = e.getPlayer();
 			UUID playerUUID = player.getUniqueId();
 
-			PlayerBukkitData playerBukkitData = new PlayerBukkitData(player);
-			Player playerToAdd = new Player(playerUUID, playerBukkitData);
+			BukkitPlayerData bukkitPlayerData = new BukkitPlayerData(player);
+			Player playerToAdd = new Player(playerUUID, bukkitPlayerData);
 
 			Optional<BlueMapAPI> api = BlueMapAPI.getInstance();
 			if (api.isEmpty()) {

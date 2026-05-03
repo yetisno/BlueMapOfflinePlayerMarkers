@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public class PlayerNBTData implements PlayerData {
+public class NBTPlayerData implements PlayerData {
 	@NBTName("playerGameType")
 	private int gameMode;
 
