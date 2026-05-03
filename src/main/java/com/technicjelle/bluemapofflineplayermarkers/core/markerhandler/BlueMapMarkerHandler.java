@@ -17,15 +17,16 @@ import java.util.UUID;
 public class BlueMapMarkerHandler implements MarkerHandler {
 	@Override
 	public void add(Player player, BlueMapAPI api) {
-		//If this player's visibility is disabled on the map, don't add the marker.
+		// If this player's visibility is disabled on the map, don't add the marker.
+		//noinspection UnstableApiUsage
 		if (!api.getWebApp().getPlayerVisibility(player.getPlayerUUID())) return;
 
 		Config config = Singletons.getConfig();
-		//If this player's game mode is disabled on the map, don't add the marker.
+		// If this player's game mode is disabled on the map, don't add the marker.
 		if (config.isGameModeHidden(player.getPlayerData().getGameMode())) return;
 
 		Server server = Singletons.getServer();
-		//If this player is banned and the config is set to hide banned players, don't add the marker.
+		// If this player is banned and the config is set to hide banned players, don't add the marker.
 		if (config.hideBannedPlayers() && server.isPlayerBanned(player.getPlayerUUID())) return;
 
 		//Get the player's position in the world
