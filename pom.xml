@@ -36,6 +36,10 @@
 				<configuration>
 					<relocations>
 						<relocation>
+							<pattern>com.technicjelle.UpdateChecker</pattern>
+							<shadedPattern>${project.groupId}.${project.artifactId}.shadow.UpdateChecker</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>com.technicjelle.BMUtils</pattern>
 							<shadedPattern>${project.groupId}.${project.artifactId}.shadow.BMUtils</shadedPattern>
 						</relocation>
@@ -44,16 +48,16 @@
 							<shadedPattern>${project.groupId}.${project.artifactId}.shadow.MCUtils</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>com.technicjelle.UpdateChecker</pattern>
-							<shadedPattern>${project.groupId}.${project.artifactId}.shadow.UpdateChecker</shadedPattern>
+							<pattern>org.spongepowered.configurate</pattern>
+							<shadedPattern>${project.groupId}.${project.artifactId}.shadow.configurate</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>de.bluecolored.bluenbt</pattern>
+							<shadedPattern>${project.groupId}.${project.artifactId}.shadow.bluenbt</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.bstats</pattern>
 							<shadedPattern>${project.groupId}.${project.artifactId}.shadow.bstats</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.spongepowered.configurate</pattern>
-							<shadedPattern>${project.groupId}.${project.artifactId}.shadow.configurate</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
