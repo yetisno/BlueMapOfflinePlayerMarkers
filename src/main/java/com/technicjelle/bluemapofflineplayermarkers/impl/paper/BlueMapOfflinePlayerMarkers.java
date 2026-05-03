@@ -94,7 +94,7 @@ public final class BlueMapOfflinePlayerMarkers extends JavaPlugin implements Lis
 
 			Optional<BlueMapAPI> api = BlueMapAPI.getInstance();
 			if (api.isEmpty()) {
-				Singletons.getLogger().warning("BlueMap is not loaded, not removing marker for " + player.getName());
+				Singletons.getLogger().warning("BlueMap is not loaded, cannot remove marker for " + player.getName());
 				return;
 			}
 
@@ -113,7 +113,7 @@ public final class BlueMapOfflinePlayerMarkers extends JavaPlugin implements Lis
 
 			Optional<BlueMapAPI> api = BlueMapAPI.getInstance();
 			if (api.isEmpty()) {
-				Singletons.getLogger().warning("BlueMap is not loaded, not adding marker for " + player.getName());
+				Singletons.getLogger().warning("BlueMap is not loaded, cannot add marker for " + player.getName());
 				return;
 			}
 
