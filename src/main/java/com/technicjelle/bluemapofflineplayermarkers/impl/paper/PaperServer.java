@@ -41,21 +41,34 @@ public class PaperServer implements Server {
 
 	@Override
 	public Path getPlayerDataFolder() {
-		//I really don't like this way to get the main world, but as far as I can tell, there is no other way
-		World bukkitWorld = Bukkit.getWorlds().getFirst();
-		Path dimensionFolder = bukkitWorld.getWorldFolder().toPath();
-
-		//This is how BlueMap does it too... https://github.com/BlueMap-Minecraft/BlueMap/blob/c115f26d7b2330b83c368396b4f84c9ce53945ae/implementations/paper/src/main/java/de/bluecolored/bluemap/bukkit/BukkitWorld.java#L55
-		Path worldFolder = dimensionFolder.getParent().getParent().getParent();
+		Path worldFolder = getWorldFolder();
 
 		Path newPlayerDataFolder = worldFolder.resolve("players").resolve("data");
 		if (Files.exists(newPlayerDataFolder)) return newPlayerDataFolder;
 
 		//Pre 26.1 format:
-		Path oldPlayerDataFolder = dimensionFolder.resolve("playerdata");
+		Path oldPlayerDataFolder = worldFolder.resolve("playerdata");
 		if (Files.exists(oldPlayerDataFolder)) return oldPlayerDataFolder;
 
 		return Path.of("");
+	}
+
+	// Inspired by BlueMap's implementations:
+	// - https://github.com/BlueMap-Minecraft/BlueMap/blob/2ce8ab1b5e3e32faea27bc2576502eea63ea233d/implementations/paper/src/main/java/de/bluecolored/bluemap/bukkit/BukkitWorld.java#L48-L60
+	// - https://github.com/BlueMap-Minecraft/BlueMap/blob/2ce8ab1b5e3e32faea27bc2576502eea63ea233d/implementations/spigot/src/main/java/de/bluecolored/bluemap/bukkit/BukkitWorld.java#L49
+	private Path getWorldFolder() {
+		//I really don't like this way to get the main world, but as far as I can tell, there is no other way
+		World bukkitWorld = Bukkit.getWorlds().getFirst();
+		Path dimensionFolder = bukkitWorld.getWorldFolder().toPath();
+
+		int nameCount = dimensionFolder.getNameCount();
+
+		if (nameCount < 3 || !"dimensions".equals(dimensionFolder.getName(nameCount - 3).toString())) {
+			return dimensionFolder;
+		} else {
+			//Yes, this is how BlueMap does it too...
+			return dimensionFolder.getParent().getParent().getParent();
+		}
 	}
 
 	@Override
