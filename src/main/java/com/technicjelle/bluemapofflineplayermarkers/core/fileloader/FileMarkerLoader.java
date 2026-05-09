@@ -48,7 +48,7 @@ public class FileMarkerLoader {
 
 	private static void loadOfflineMarker(Path playerDataFile, BlueMapAPI api) {
 		final String fileName = playerDataFile.getFileName().toString();
-		Singletons.getLogger().info("Loading playerdata file: " + fileName);
+		Singletons.getLogger().finest("Loading playerdata file: " + fileName);
 
 		final String uuidString = fileName.replace(".dat", "");
 		final UUID playerUUID;
