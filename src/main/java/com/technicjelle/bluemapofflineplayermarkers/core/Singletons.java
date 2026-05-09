@@ -14,7 +14,7 @@ public class Singletons {
 
 	public static void init(Server server, Logger logger, Config config, MarkerHandler markerHandler) {
 		if (Singletons.server != null || Singletons.logger != null || Singletons.config != null || Singletons.markerHandler != null)
-			throw new RuntimeException("Singletons already initialized");
+			throw new IllegalStateException("Singletons already initialized");
 
 		Singletons.server = server;
 		Singletons.logger = logger;
