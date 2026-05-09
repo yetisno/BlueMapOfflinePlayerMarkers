@@ -2,6 +2,7 @@ package com.technicjelle.bluemapofflineplayermarkers.impl.paper;
 
 import com.technicjelle.BMUtils.BMCopy;
 import com.technicjelle.UpdateChecker;
+import com.technicjelle.bluemapofflineplayermarkers.common.JavaUtilLogger;
 import com.technicjelle.bluemapofflineplayermarkers.core.Player;
 import com.technicjelle.bluemapofflineplayermarkers.core.Singletons;
 import com.technicjelle.bluemapofflineplayermarkers.core.fileloader.FileMarkerLoader;
@@ -19,7 +20,6 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.logging.Level;
 
 public final class BlueMapOfflinePlayerMarkers extends JavaPlugin implements Listener {
 	private PaperConfig config;
@@ -34,7 +34,7 @@ public final class BlueMapOfflinePlayerMarkers extends JavaPlugin implements Lis
 				BMCopy.jarResourceToWebApp(api, getClassLoader(), "style.css", "bmopm.css", false);
 				BMCopy.jarResourceToWebApp(api, getClassLoader(), "script.js", "bmopm.js", false);
 			} catch (IOException e) {
-				Singletons.getLogger().log(Level.SEVERE, "Failed to copy resources to BlueMap webapp!", e);
+				Singletons.getLogger().error("Failed to copy resources to BlueMap webapp!", e);
 			}
 
 		});
@@ -51,7 +51,7 @@ public final class BlueMapOfflinePlayerMarkers extends JavaPlugin implements Lis
 
 		config = new PaperConfig(this);
 
-		Singletons.init(new PaperServer(this), getLogger(), config, new BlueMapMarkerHandler());
+		Singletons.init(new PaperServer(this), new JavaUtilLogger(getLogger()), config, new BlueMapMarkerHandler());
 		Singletons.getServer().startUp();
 
 		//all actual startup and shutdown logic moved to BlueMapAPI enable/disable methods, so `/bluemap reload` also reloads this plugin
@@ -61,7 +61,7 @@ public final class BlueMapOfflinePlayerMarkers extends JavaPlugin implements Lis
 
 	final Consumer<BlueMapAPI> onEnableListener = api -> {
 		getLogger().info("API Ready! BlueMap Offline Player Markers plugin enabled!");
-		updateChecker.logUpdateMessage(Singletons.getLogger());
+		updateChecker.logUpdateMessage(getLogger());
 
 		config.loadFromPlugin(this);
 

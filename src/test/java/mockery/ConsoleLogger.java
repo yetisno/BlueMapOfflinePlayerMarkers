@@ -1,6 +1,8 @@
 package mockery;
 
 
+import com.technicjelle.bluemapofflineplayermarkers.common.JavaUtilLogger;
+
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -13,7 +15,7 @@ public class ConsoleLogger extends StreamHandler {
 		return String.format("[%1$-7s] %2$s%n", lr.getLevel().getName(), lr.getMessage());
 	}
 
-	public static Logger createLogger(String name) {
+	public static JavaUtilLogger createLogger(String name) {
 		Logger logger = Logger.getLogger(name);
 		logger.setUseParentHandlers(false);
 		logger.setLevel(Level.ALL);
@@ -31,7 +33,7 @@ public class ConsoleLogger extends StreamHandler {
 		ConsoleLogger fine2stdoutLogger = new ConsoleLogger();
 		logger.addHandler(fine2stdoutLogger);
 
-		return logger;
+		return new JavaUtilLogger(logger);
 	}
 
 	@Override

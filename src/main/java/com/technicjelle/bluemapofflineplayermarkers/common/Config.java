@@ -48,7 +48,7 @@ public interface Config {
 		boolean shouldBeHidden = lastPlayed.isBefore(expireTime);
 		if (shouldBeHidden) {
 			String playerName = Singletons.getServer().getPlayerName(playerUUID);
-			Singletons.getLogger().finer("Player " + playerName + " (" + playerUUID + ") was last online at " + oLastPlayed + ",\n" +
+			Singletons.getLogger().debug("Player " + playerName + " (" + playerUUID + ") was last online at " + oLastPlayed + ",\n" +
 			                             "which is more than " + getExpireTimeInHours() + " hours ago, so not adding marker");
 		}
 		return shouldBeHidden;
