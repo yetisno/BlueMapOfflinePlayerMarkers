@@ -2,7 +2,6 @@ package com.technicjelle.bluemapofflineplayermarkers.impl.paper;
 
 import com.technicjelle.BMUtils.BMCopy;
 import com.technicjelle.UpdateChecker;
-import com.technicjelle.bluemapofflineplayermarkers.core.BMApiStatus;
 import com.technicjelle.bluemapofflineplayermarkers.core.Player;
 import com.technicjelle.bluemapofflineplayermarkers.core.Singletons;
 import com.technicjelle.bluemapofflineplayermarkers.core.fileloader.FileMarkerLoader;
@@ -52,7 +51,7 @@ public final class BlueMapOfflinePlayerMarkers extends JavaPlugin implements Lis
 
 		config = new PaperConfig(this);
 
-		Singletons.init(new PaperServer(this), getLogger(), config, new BlueMapMarkerHandler(), new BMApiStatus());
+		Singletons.init(new PaperServer(this), getLogger(), config, new BlueMapMarkerHandler());
 		Singletons.getServer().startUp();
 
 		//all actual startup and shutdown logic moved to BlueMapAPI enable/disable methods, so `/bluemap reload` also reloads this plugin
@@ -68,7 +67,7 @@ public final class BlueMapOfflinePlayerMarkers extends JavaPlugin implements Lis
 
 		//create marker handler and add all offline players in a separate thread, so the server doesn't hang up while it's going
 		//with a delay, so any potential BlueMap SkinProviders have time to load
-		Bukkit.getScheduler().runTaskLaterAsynchronously(this, FileMarkerLoader::loadOfflineMarkers, 20 * 5);
+		Bukkit.getScheduler().runTaskLaterAsynchronously(this, _ -> FileMarkerLoader.loadOfflineMarkers(api), 20 * 5);
 	};
 
 	final Consumer<BlueMapAPI> onDisableListener = api -> {

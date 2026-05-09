@@ -11,17 +11,15 @@ public class Singletons {
 	private static Logger logger;
 	private static Config config;
 	private static MarkerHandler markerHandler;
-	private static BMApiStatus bmApiStatus;
 
-	public static void init(Server server, Logger logger, Config config, MarkerHandler markerHandler, BMApiStatus bmApiStatus) {
-		if (Singletons.server != null || Singletons.logger != null || Singletons.config != null || Singletons.markerHandler != null || Singletons.bmApiStatus != null)
+	public static void init(Server server, Logger logger, Config config, MarkerHandler markerHandler) {
+		if (Singletons.server != null || Singletons.logger != null || Singletons.config != null || Singletons.markerHandler != null)
 			throw new RuntimeException("Singletons already initialized");
 
 		Singletons.server = server;
 		Singletons.logger = logger;
 		Singletons.config = config;
 		Singletons.markerHandler = markerHandler;
-		Singletons.bmApiStatus = bmApiStatus;
 	}
 
 	public static void cleanup() {
@@ -29,7 +27,6 @@ public class Singletons {
 		logger = null;
 		config = null;
 		markerHandler = null;
-		bmApiStatus = null;
 		System.gc();
 	}
 
@@ -47,9 +44,5 @@ public class Singletons {
 
 	public static MarkerHandler getMarkerHandler() {
 		return markerHandler;
-	}
-
-	public static boolean isBlueMapAPIPresent() {
-		return bmApiStatus.isBlueMapAPIPresent();
 	}
 }

@@ -11,7 +11,8 @@ import java.util.UUID;
 
 public class MockMarkerHandler implements MarkerHandler {
 	@Override
-	public void add(Player player, BlueMapAPI __) {
+	public void add(Player player, BlueMapAPI api) {
+		assert api == null;
 		Singletons.getLogger().finer("UUID: " + player.getPlayerUUID());
 		Singletons.getLogger().finer("Name: " + player.getPlayerName());
 		Optional<Instant> oLastPlayed = player.getLastPlayed();

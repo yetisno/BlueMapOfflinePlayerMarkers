@@ -1,6 +1,9 @@
 import com.technicjelle.bluemapofflineplayermarkers.core.Singletons;
 import com.technicjelle.bluemapofflineplayermarkers.core.fileloader.FileMarkerLoader;
-import mockery.*;
+import mockery.ConsoleLogger;
+import mockery.MockConfig;
+import mockery.MockMarkerHandler;
+import mockery.MockServer;
 import org.junit.After;
 import org.junit.Test;
 
@@ -17,10 +20,9 @@ public class LoadOfflineMarkersTest {
 				new MockServer("test_playerdata"),
 				ConsoleLogger.createLogger("extract_info_from_playerdata_files"),
 				new MockConfig(),
-				new MockMarkerHandler(),
-				new MockBMApiStatus()
+				new MockMarkerHandler()
 		);
 		Singletons.getServer().startUp();
-		FileMarkerLoader.loadOfflineMarkers();
+		FileMarkerLoader.loadOfflineMarkers(null);
 	}
 }
