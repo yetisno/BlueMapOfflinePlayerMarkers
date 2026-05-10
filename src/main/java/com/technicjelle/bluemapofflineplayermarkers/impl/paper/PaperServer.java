@@ -163,7 +163,7 @@ public class PaperServer implements Server {
 			}
 		}
 
-		throw new IllegalArgumentException("Could not find BlueMap world for dimension: " + dimension);
+		throw new IllegalArgumentException("Could not find BlueMap world for player " + player.getPlayerUUID() + " for dimension: " + dimension);
 	}
 
 	@Override
