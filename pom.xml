@@ -127,6 +127,12 @@
 		</dependency>
 		<dependency>
 			<groupId>de.bluecolored</groupId>
+			<artifactId>bluemap-core</artifactId>
+			<version>5.20</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.bluecolored</groupId>
 			<artifactId>bluenbt</artifactId>
 			<version>3.5.0</version>
 			<scope>compile</scope>

@@ -2,7 +2,7 @@ package com.technicjelle.bluemapofflineplayermarkers.impl.paper;
 
 import com.technicjelle.BMUtils.BMCopy;
 import com.technicjelle.UpdateChecker;
-import com.technicjelle.bluemapofflineplayermarkers.common.JavaUtilLogger;
+import com.technicjelle.bluemapofflineplayermarkers.common.BMNLogger;
 import com.technicjelle.bluemapofflineplayermarkers.core.Player;
 import com.technicjelle.bluemapofflineplayermarkers.core.Singletons;
 import com.technicjelle.bluemapofflineplayermarkers.core.fileloader.FileMarkerLoader;
@@ -51,7 +51,7 @@ public final class BlueMapOfflinePlayerMarkers extends JavaPlugin implements Lis
 
 		config = new PaperConfig(this);
 
-		Singletons.init(new PaperServer(this), new JavaUtilLogger(getLogger()), config, new BlueMapMarkerHandler());
+		Singletons.init(new PaperServer(this), new BMNLogger("OfflinePlayerMarkers"), config, new BlueMapMarkerHandler());
 		Singletons.getServer().startUp();
 
 		//all actual startup and shutdown logic moved to BlueMapAPI enable/disable methods, so `/bluemap reload` also reloads this plugin
