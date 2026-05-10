@@ -51,6 +51,11 @@ public class FileMarkerLoader {
 			return;
 		}
 
+		if (playerUUID.getLeastSignificantBits() == 0 && playerUUID.getMostSignificantBits() == 0) {
+			Singletons.getLogger().warning("Invalid player UUID: " + fileName + ", skipping");
+			return;
+		}
+
 		if (Singletons.getServer().isPlayerOnline(playerUUID)) return; // don't add markers for online players
 
 		if (Singletons.getConfig().checkPlayerLastPlayed(playerUUID)) return; // don't add markers for players that have logged off too long ago
