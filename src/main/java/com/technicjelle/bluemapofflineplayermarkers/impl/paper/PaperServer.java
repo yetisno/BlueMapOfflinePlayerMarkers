@@ -74,7 +74,7 @@ public class PaperServer implements Server {
 	@Override
 	public Optional<Instant> getPlayerLastPlayed(UUID playerUUID) {
 		OfflinePlayer op = bukkitServer.getOfflinePlayer(playerUUID);
-		long millisSinceEpoch = op.getLastSeen();
+		long millisSinceEpoch = op.getLastPlayed();
 		if (millisSinceEpoch == 0) return Optional.empty();
 		return Optional.of(Instant.ofEpochMilli(millisSinceEpoch));
 	}

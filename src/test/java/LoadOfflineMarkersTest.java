@@ -7,10 +7,17 @@ import mockery.MockServer;
 import org.junit.After;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 public class LoadOfflineMarkersTest {
 	@After
 	public void cleanup() {
-		Singletons.getServer().shutDown();
+		if (Singletons.getServer() != null) Singletons.getServer().shutDown();
 		Singletons.cleanup();
 	}
 
@@ -24,5 +31,13 @@ public class LoadOfflineMarkersTest {
 		);
 		Singletons.getServer().startUp();
 		FileMarkerLoader.loadOfflineMarkers(null);
+	}
+
+	@Test
+	public void paper_server_uses_spigot_last_played_api() throws IOException {
+		String source = Files.readString(Path.of("src/main/java/com/technicjelle/bluemapofflineplayermarkers/impl/paper/PaperServer.java"));
+
+		assertFalse(source.contains(".getLastSeen("));
+		assertTrue(source.contains(".getLastPlayed("));
 	}
 }
